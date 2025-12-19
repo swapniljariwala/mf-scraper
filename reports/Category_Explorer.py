@@ -164,28 +164,13 @@ with tab1:
     st.markdown("### Return Distribution Across Categories")
     
     # Calculate median order for sorting
-    category_order_alpha = df_filtered_categories.groupby('fund_category')['alpha'].median().sort_values(ascending=False).index.tolist()
     category_order_5y = df_filtered_categories.groupby('fund_category')['return_5y'].median().sort_values(ascending=False).index.tolist()
     category_order_3y = df_filtered_categories.groupby('fund_category')['return_3y'].median().sort_values(ascending=False).index.tolist()
     category_order_1y = df_filtered_categories.groupby('fund_category')['return_1y'].median().sort_values(ascending=False).index.tolist()
     
-    # First row: Alpha and 5Y
-    col1, col2 = st.columns(2)
+    col1, col2, col3 = st.columns(3)
     
     with col1:
-        fig_alpha = px.box(
-            df_filtered_categories,
-            x="fund_category",
-            y="alpha",
-            color="fund_category",
-            title="Alpha (Excess Return)",
-            labels={"fund_category": "Category", "alpha": "Alpha"}
-        )
-        fig_alpha.update_xaxes(categoryorder='array', categoryarray=category_order_alpha)
-        fig_alpha.update_layout(showlegend=False, xaxis={'tickangle': 45})
-        st.plotly_chart(fig_alpha, use_container_width=True)
-    
-    with col2:
         fig_ret5y = px.box(
             df_filtered_categories,
             x="fund_category",
@@ -198,10 +183,7 @@ with tab1:
         fig_ret5y.update_layout(showlegend=False, xaxis={'tickangle': 45})
         st.plotly_chart(fig_ret5y, use_container_width=True)
     
-    # Second row: 3Y and 1Y
-    col3, col4 = st.columns(2)
-    
-    with col3:
+    with col2:
         fig_ret3y = px.box(
             df_filtered_categories,
             x="fund_category",
@@ -214,7 +196,7 @@ with tab1:
         fig_ret3y.update_layout(showlegend=False, xaxis={'tickangle': 45})
         st.plotly_chart(fig_ret3y, use_container_width=True)
     
-    with col4:
+    with col3:
         fig_ret1y = px.box(
             df_filtered_categories,
             x="fund_category",
