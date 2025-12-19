@@ -70,20 +70,29 @@ with st.sidebar:
     st.markdown("---")
     st.subheader("Filters")
     
+    # Calculate dynamic ranges from data
+    data_return_min = float(df[return_col].min())
+    data_return_max = float(df[return_col].max()) + 1
+    data_sd_max = float(df['sd'].max()) + 1
+    data_aum_min = float(df['aum_cr'].min())
+    data_aum_max = float(df['aum_cr'].max()) + 1
+    data_expense_max = float(df['expense_ratio'].max()) + 1
+    data_age_max = float(df['fund_age_years'].max()) + 1
+    
     # Return range filter
     min_return = st.slider(
         "Min Return (%):",
-        min_value=-50.0,
-        max_value=100.0,
-        value=0.0,
+        min_value=data_return_min,
+        max_value=data_return_max,
+        value=data_return_min,
         step=1.0
     )
     
     max_return = st.slider(
         "Max Return (%):",
-        min_value=-50.0,
-        max_value=100.0,
-        value=100.0,
+        min_value=data_return_min,
+        max_value=data_return_max,
+        value=data_return_max,
         step=1.0
     )
     
@@ -91,34 +100,34 @@ with st.sidebar:
     max_sd = st.slider(
         "Max Risk - SD (%):",
         min_value=0.0,
-        max_value=50.0,
-        value=50.0,
+        max_value=data_sd_max,
+        value=data_sd_max,
         step=1.0
     )
     
     # AUM range filter
     min_aum = st.slider(
         "Min AUM (Crores):",
-        min_value=0,
-        max_value=10000,
-        value=0,
-        step=100
+        min_value=data_aum_min,
+        max_value=data_aum_max,
+        value=data_aum_min,
+        step=100.0
     )
     
     max_aum = st.slider(
         "Max AUM (Crores):",
-        min_value=0,
-        max_value=50000,
-        value=50000,
-        step=500
+        min_value=data_aum_min,
+        max_value=data_aum_max,
+        value=data_aum_max,
+        step=500.0
     )
     
     # Expense ratio filter
     max_expense = st.slider(
         "Max Expense Ratio (%):",
         min_value=0.0,
-        max_value=5.0,
-        value=5.0,
+        max_value=data_expense_max,
+        value=data_expense_max,
         step=0.1
     )
     
@@ -126,7 +135,7 @@ with st.sidebar:
     min_age = st.slider(
         "Min Fund Age (Years):",
         min_value=0.0,
-        max_value=30.0,
+        max_value=data_age_max,
         value=0.0,
         step=0.5
     )
